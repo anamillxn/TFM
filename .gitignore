@@ -1,3 +1,6 @@
 datasets/
 .vscode/
 runs/
+yolov8n.pt
+yolov9c.pt
+yolov9e.pt
