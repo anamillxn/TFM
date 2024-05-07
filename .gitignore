@@ -1,6 +1,12 @@
 datasets/
 .vscode/
 runs/
+modelos/
 yolov8n.pt
 yolov9c.pt
 yolov9e.pt
+yolov8m.pt
+yolov8x.pt
+prediction_visual.png
+result_sahi.jpg
+result.jpg
