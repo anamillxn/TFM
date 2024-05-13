@@ -10,3 +10,5 @@ yolov8x.pt
 prediction_visual.png
 result_sahi.jpg
 result.jpg
+arial.ttf
+rtdetr-l.pt
