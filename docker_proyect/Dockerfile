@@ -1,22 +1,24 @@
-# Usa una imagen base de Python
+# Utilizar una imagen base oficial de Python
 FROM python:3.10-slim
 
-# Configura el directorio de trabajo
+# Establecer el directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copia los archivos requeridos para el proyecto
+# Copiar el archivo de dependencias primero, para aprovechar la cache de capas de Docker
 COPY requirements.txt .
-COPY inferencia.py .
 
-# Instala las dependencias de Python
-RUN pip install --no-cache-dir -r requirements.txt
+# Instalar AWS CLI y boto3
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install boto3 && \
+    apt-get update && \
+    apt-get install -y awscli
 
-# Instala cualquier otra dependencia que no sea de Python
-# Ejemplo, si necesitas compiladores o librerías específicas del sistema
-# RUN apt-get update && apt-get install -y libjpeg-dev zlib1g-dev etc.
+# Copiar el resto del código fuente del proyecto al contenedor
+COPY . .
 
-# Puerto para exponer (opcional, dependiendo de tu aplicación)
+# Configurar el puerto (opcional, dependiendo si tu aplicación necesita un puerto)
 EXPOSE 8080
 
-# Comando para ejecutar al iniciar el contenedor
+# Comando para ejecutar la aplicación Python
 CMD ["python", "inferencia.py"]
+
