@@ -1,24 +1,20 @@
 # Utilizar una imagen base oficial de Python
 FROM python:3.10-slim
 
-# Establecer el directorio de trabajo en el contenedor
+# Establece el directorio de trabajo
 WORKDIR /app
 
 # Copiar el archivo de dependencias primero, para aprovechar la cache de capas de Docker
 COPY requirements.txt .
 
-# Instalar AWS CLI y boto3
-RUN pip install --no-cache-dir -r requirements.txt && \
-    pip install boto3 && \
-    apt-get update && \
-    apt-get install -y awscli
+# Instalar las dependencias de Python
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install boto3  # Asegúrate de incluir boto3 si no está en requirements.txt
 
 # Copiar el resto del código fuente del proyecto al contenedor
-COPY . .
-
-# Configurar el puerto (opcional, dependiendo si tu aplicación necesita un puerto)
-EXPOSE 8080
+COPY inferencia.py .
 
 # Comando para ejecutar la aplicación Python
-CMD ["python", "inferencia.py"]
+CMD ["python", "inferencia.py", "s3_bucket_name", "image_key", "yolo_model_key", "rtdetr_model_key"]
+
 
